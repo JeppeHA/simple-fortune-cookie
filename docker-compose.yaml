@@ -1,6 +1,6 @@
 services:
   frontend-container:
-    image: frontenddocker
+    image: jeppeha/frontenddocker:latest
     ports:
       - 8080:8080
     depends_on:
@@ -11,7 +11,7 @@ services:
     
   
   backend-container:
-    image: backenddocker
+    image: jeppeha/backenddocker:latest
     ports:
       - 9000:9000
 
