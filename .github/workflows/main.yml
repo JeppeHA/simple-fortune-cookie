@@ -11,4 +11,31 @@ jobs:
      - name: Test Frontend
        working-directory: frontend
        run: go test ./...
-  
+  Dockerpush:
+    name: push dockerimage to dockerhub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: login to docker hub
+        id: docker-hub
+        env:
+          username: ${{ secret.DOCKERHUB_USERNAME }}
+          password: ${{ secret.DOCKERHUB_PASSWORD }}
+        run: |
+          docker login -u $username -p $password
+      - name: build the frontend docker image
+        id: build-frontend-docker-image
+        run: | 
+          ls -la
+          docker build . -f Dockerfile -t frontend/Dockerfile:latest
+      - name: push the frontend docker image
+        id: push-frontend-docker-image
+        run: docker push ${{ secret.DOCKERHUB_USERNAME }}/Dockerfile:latest
+      - name: build the backend docker image
+        id: build-backend-docker-image
+        run: | 
+          ls -la
+          docker build . -f Dockerfile -t backend/Dockerfile:latest
+      - name: push the backend docker image
+        id: push-backend-docker-image
+        run: docker push ${{ secret.DOCKERHUB_USERNAME }}/Dockerfile:latest  
