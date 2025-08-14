@@ -2,8 +2,8 @@ name: simple-fortune-cookie
 on: 
   push
 jobs:
-  Build:
-    runs-on: go
+  Test:
+    runs-on: ubuntu-latest
     steps:
       - name: Test frontend
-        run: frontend/main_test.go
+        run: simple-fortune-cookie/frontend/main_test.go
