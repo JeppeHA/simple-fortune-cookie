@@ -8,6 +8,7 @@ jobs:
      - name: Checkout repo
        uses: actions/checkout@v4
 
-     - name: Test frontend
-       run: go test ./frontend/
+     - name: Test Frontend
+       working-directory: frontend
+       run: go test ./...
   
