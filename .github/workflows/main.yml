@@ -19,8 +19,8 @@ jobs:
       - name: login to docker hub
         id: docker-hub
         env:
-          username: ${{ secret.DOCKERHUB_USERNAME }}
-          password: ${{ secret.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
           docker login -u $username -p $password
       - name: build the frontend docker image
@@ -30,7 +30,7 @@ jobs:
           docker build . -f Dockerfile -t frontend/Dockerfile:latest
       - name: push the frontend docker image
         id: push-frontend-docker-image
-        run: docker push ${{ secret.DOCKERHUB_USERNAME }}/Dockerfile:latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/Dockerfile:latest
       - name: build the backend docker image
         id: build-backend-docker-image
         run: | 
@@ -38,4 +38,4 @@ jobs:
           docker build . -f Dockerfile -t backend/Dockerfile:latest
       - name: push the backend docker image
         id: push-backend-docker-image
-        run: docker push ${{ secret.DOCKERHUB_USERNAME }}/Dockerfile:latest  
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/Dockerfile:latest  
