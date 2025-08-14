@@ -1,0 +1,9 @@
+name: simple-fortune-cookie
+on: 
+  push
+jobs:
+  Build:
+    runs-on: go
+    steps:
+      - name: Test frontend
+        run: frontend/main_test.go
