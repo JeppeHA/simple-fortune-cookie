@@ -28,7 +28,7 @@ jobs:
         id: build-frontend-docker-image
         run: | 
           ls -la
-          docker build frontend -t frontend/frontenddocker:latest
+          docker build frontend -t jeppeha/frontenddocker:latest
       - name: push the frontend docker image
         id: push-frontend-docker-image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontenddocker:latest
@@ -36,7 +36,7 @@ jobs:
         id: build-backend-docker-image
         run: | 
           ls -la
-          docker build backend -t backend/backenddocker:latest
+          docker build backend -t jeppeha/backenddocker:latest
       - name: push the backend docker image
         id: push-backend-docker-image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/backenddocker:latest  
