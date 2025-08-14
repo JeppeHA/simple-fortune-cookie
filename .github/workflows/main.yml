@@ -5,5 +5,9 @@ jobs:
   Test:
     runs-on: ubuntu-latest
     steps:
-      - name: Test frontend
-        run: simple-fortune-cookie/frontend/main_test.go
+     - name: Checkout repo
+       uses: actions/checkout@v4
+
+     - name: Test frontend
+       run: go test ./frontend/
+  
