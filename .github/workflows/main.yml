@@ -12,6 +12,7 @@ jobs:
        working-directory: frontend
        run: go test ./...
   Dockerpush:
+    needs: Test
     name: push dockerimage to dockerhub
     runs-on: ubuntu-latest
     steps:
@@ -27,15 +28,15 @@ jobs:
         id: build-frontend-docker-image
         run: | 
           ls -la
-          docker build . -f Dockerfile -t frontend/Dockerfile:latest
+          docker build . -f Dockerfile -t frontend/frontenddocker:latest
       - name: push the frontend docker image
         id: push-frontend-docker-image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/Dockerfile:latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontenddocker:latest
       - name: build the backend docker image
         id: build-backend-docker-image
         run: | 
           ls -la
-          docker build . -f Dockerfile -t backend/Dockerfile:latest
+          docker build . -f Dockerfile -t backend/backenddocker:latest
       - name: push the backend docker image
         id: push-backend-docker-image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/Dockerfile:latest  
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/backenddocker:latest  
