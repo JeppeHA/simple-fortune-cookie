@@ -1,0 +1,59 @@
+name: deployment
+on: push
+jobs:
+
+  Setup-kubeconfig:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkoutv4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: latest
+      - name: Set up kubeconfig
+        run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
+
+  Redis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkoutv4
+      - name: deploy-redis
+        run: kubectl --kubeconfig kubeconfig kubectl apply -f redis-deployment.yaml
+
+      - name: redis-services
+        run: kubectl --kubeconfig kubeconfig kubectl apply -f redis-svc.yaml
+
+      - name: redis-persitance
+        run: kubectl --kubeconfig kubeconfig kubectl apply -f redis-pvc.yaml
+
+  Backend:
+    runs-on: ubuntu-latest
+    needs: Redis
+    steps:
+      - uses: actions/checkoutv4
+      - name: deploy-backend
+        run: kubectl --kubeconfig kubeconfig kubectl apply -f backend-deployment.yaml
+
+      - name: backend-services
+        run: kubectl --kubeconfig kubeconfig kubectl apply -f backend-svc.yaml
+
+      - name: backend-persitance
+        run: kubectl --kubeconfig kubeconfig kubectl apply -f backend-pvc.yaml
+
+  Frontend:
+    runs-on: ubuntu-latest
+    needs: Backend
+    steps:
+      - uses: actions/checkoutv4
+      - name: deploy-frontend
+        run: kubectl --kubeconfig kubeconfig kubectl apply -f frontend-deployment.yaml
+
+      - name: frontend-services
+        run: kubectl --kubeconfig kubeconfig kubectl apply -f frontend-svc.yaml
+
+      - name: frontend-persitance
+        run: kubectl --kubeconfig kubeconfig kubectl apply -f frontend-pvc.yaml
+
+
+    
