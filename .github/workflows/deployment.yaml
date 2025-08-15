@@ -79,7 +79,3 @@ jobs:
         run:  kubectl --kubeconfig kubeconfig get pods -l app=backend
       - name: test-redis-deployment
         run:  kubectl --kubeconfig kubeconfig get pods -l app=redis
-
-
-
-    
